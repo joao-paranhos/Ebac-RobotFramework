@@ -7,14 +7,21 @@ Library    String
 
 ***Variables***
 
-
+${SENHA}    TESTE123@#456
 
 *** Test Cases ***
 
 Processo de compra
-     ${ENDERECOFAKE}             FakerLibrary.Address
+     ${ENDERECO}             FakerLibrary.Address
      ${COMPLEMENTO}    FakerLibrary.Word
      ${CIDADE}    FakerLibrary.City
+     ${CEP}    FakerLibrary.Postalcode
+     ${TELEFONE}    FakerLibrary.Basic Phone Number
+     ${EMAIL}    FakerLibrary.Email
+     ${NOME}    FakerLibrary.First Name
+     ${SOBRENOME}    FakerLibrary.Last Name
+     
+
 
     Open Browser    url= http://lojaebac.ebaconline.art.br    browser= Firefox    service_log_path=${{os.path.devnull}}
     Maximize Browser Window
@@ -30,23 +37,22 @@ Processo de compra
     Click Element    xpath=//button[@class="single_add_to_cart_button button alt"]
     Click Element    xpath=//*[@id="content"]/div[2]/div/a
     Click Element    xpath=//*[@id="main"]/div/div[3]/div/div/a
-    Input Text    id=billing_first_name    Lucas
-    Input Text    id=billing_last_name    Ramos
+    Input Text    id=billing_first_name    ${NOME}
+    Input Text    id=billing_last_name    ${SOBRENOME}
     Input Text    id=billing_company    Roupas mais
     Click Element    xpath=//span[@id="select2-billing_country-container"]
     Click Element    xpath=//ul[@class="select2-results__options"][@id="select2-billing_country-results"]//li[text()="Alemanha"]
-    Input Text    xpath=//input[@class="input-text "][@name="billing_address_1"]    ${ENDERECOFAKE}
-    Input Text    xpath=//input[@class="input-text "][@id="billing_address_2"]    ${COMPLEMENTO}      
-   
-
-
-    
-    
-
-
-
-
-    Sleep    20
+    Input Text    xpath=//input[@class="input-text "][@name="billing_address_1"]    ${ENDERECO}
+    Input Text    xpath=//*[@id="billing_city"]    ${CIDADE}
+    Input Text    xpath=//input[@class="input-text "][@id="billing_address_2"]    ${COMPLEMENTO}
+    Input Text    xpath=//input[@class="input-text "][@name="billing_postcode"]    ${CEP}
+    Input Text    xpath=//input[@class="input-text "][@name="billing_phone"]    ${TELEFONE}
+    Input Text    xpath=//input[@class="input-text "][@name="billing_email"]    ${EMAIL}
+    Select Checkbox    id=createaccount
+    Input Text    xpath=//input[@class="input-text "][@name="account_password"]    ${SENHA}
+    Input Text    xpath=//textarea[@class="input-text "][@name="order_comments"]    TESTE DO QA 
+    Click Element    xpath=//*[@id="terms"]
+    Click Element    xpath=//*[@id="place_order"]
     Close Browser    
 
 
