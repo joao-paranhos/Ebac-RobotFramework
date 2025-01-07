@@ -1,13 +1,15 @@
 *** Settings ***
 Library    SeleniumLibrary
 Library  FakerLibrary
-Library    String
-
+Resource    ../resources/keyword_compra.robot
+Test Setup    Open Browser    browser= Firefox    service_log_path=${{os.path.devnull}}    
 
 
 ***Variables***
 
 ${SENHA}    TESTE123@#456
+${URL}    http://lojaebac.ebaconline.art.br
+${NOMEPRODUTO}    shorts
 
 *** Test Cases ***
 
@@ -20,14 +22,10 @@ Processo de compra
      ${EMAIL}    FakerLibrary.Email
      ${NOME}    FakerLibrary.First Name
      ${SOBRENOME}    FakerLibrary.Last Name
-     
-
-
-    Open Browser    url= http://lojaebac.ebaconline.art.br    browser= Firefox    service_log_path=${{os.path.devnull}}
-    Maximize Browser Window
-    Click Element   xpath=//div[@class='pull-right']//div[@class="search-form-modal"]
-    Input Text    xpath=//div[@class="modal fade searchformshow in"]//input[contains(@placeholder, "Enter your search ...")]    shorts
-    Click Button    xpath=//div[@class="modal fade searchformshow in"]//button[@class="button-search btn btn-sm"]
+    
+    Navegando ate a pagina principal    http://lojaebac.ebaconline.art.br
+    Pesquisando produto    ${NOMEPRODUTO}
+    Validando URL
     Wait Until Element Is Visible    xpath=//div[@class="row"]//img[contains(@src,"msh11-blue_main-427x546.jpg")]
     Click Element    xpath=//div[@class="row"]//img[contains(@src,"msh11-blue_main-427x546.jpg")]
     Wait Until Element Is Visible    xpath=//*[@id="product-3528"]/div[1]/div[2]/div/form/table/tbody/tr[1]/td[2]/ul/li[4]
@@ -52,7 +50,7 @@ Processo de compra
     Input Text    xpath=//input[@class="input-text "][@name="account_password"]    ${SENHA}
     Input Text    xpath=//textarea[@class="input-text "][@name="order_comments"]    TESTE DO QA 
     Click Element    xpath=//*[@id="terms"]
-    Click Element    xpath=//*[@id="place_order"]
+    Select Checkbox    xpath=//*[@id="place_order"]
     Close Browser    
 
 
